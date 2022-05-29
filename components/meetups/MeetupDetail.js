@@ -9,7 +9,7 @@ const MeetupDetail = (props) => {
   return (
     <Fragment>
       {meetup && (
-        <div className={classes["detail"]}>
+        <div className={classes.detail}>
           <img src={meetup.image} alt="image" />
           <h1>{meetup.title}</h1>
           <p>{meetup.description}</p>
