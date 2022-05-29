@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import MeetupsList from "../components/meetups/MeetupList";
 
 export const DUMMY_MEETUPS = [
@@ -20,14 +19,17 @@ export const DUMMY_MEETUPS = [
   },
 ];
 
-const HomePage = () => {
-  const [meetups, setMeetups] = useState([]);
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((response) => response.json())
-      .then((data) => setMeetups(DUMMY_MEETUPS));
-  }, []);
-  return <MeetupsList meetups={meetups} />;
+const HomePage = (props) => {
+  return <MeetupsList meetups={props.meetups} />;
 };
+
+// Export method to implement static site generation
+export async function getStaticProps() {
+  return {
+    props: {
+      meetups: DUMMY_MEETUPS,
+    },
+  };
+}
 
 export default HomePage;
