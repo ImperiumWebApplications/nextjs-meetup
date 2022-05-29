@@ -1,7 +1,8 @@
-import Card from '../ui/Card';
-import classes from './MeetupItem.module.css';
+import Card from "../ui/Card";
+import classes from "./MeetupItem.module.css";
 
 function MeetupItem(props) {
+  const { image } = props;
   return (
     <li className={classes.item}>
       <Card>
