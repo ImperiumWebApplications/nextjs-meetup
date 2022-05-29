@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import MeetupsList from "../components/meetups/MeetupList";
 
 export const DUMMY_MEETUPS = [
@@ -20,7 +21,13 @@ export const DUMMY_MEETUPS = [
 ];
 
 const HomePage = () => {
-  return <MeetupsList meetups={DUMMY_MEETUPS} />;
+  const [meetups, setMeetups] = useState([]);
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/posts")
+      .then((response) => response.json())
+      .then((data) => setMeetups(DUMMY_MEETUPS));
+  }, []);
+  return <MeetupsList meetups={meetups} />;
 };
 
 export default HomePage;
