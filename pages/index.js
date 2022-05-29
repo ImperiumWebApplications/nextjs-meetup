@@ -24,23 +24,23 @@ const HomePage = (props) => {
 };
 
 // Export method to implement static site generation
-// export async function getStaticProps() {
-//   return {
-//     props: {
-//       meetups: DUMMY_MEETUPS,
-//     },
-//     revalidate: 1,
-//   };
-// }
-
-// Export method to implement server side rendering
-export async function getServerSideProps(context) {
-  context.res.setHeader("Cache-Control", "s-maxage=1, stale-while-revalidate");
+export async function getStaticProps() {
   return {
     props: {
       meetups: DUMMY_MEETUPS,
     },
+    revalidate: 1,
   };
 }
+
+// Export method to implement server side rendering
+// export async function getServerSideProps(context) {
+//   context.res.setHeader("Cache-Control", "s-maxage=1, stale-while-revalidate");
+//   return {
+//     props: {
+//       meetups: DUMMY_MEETUPS,
+//     },
+//   };
+// }
 
 export default HomePage;
