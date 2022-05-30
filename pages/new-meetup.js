@@ -12,7 +12,6 @@ const NewMeetup = () => {
       body: JSON.stringify(meetupData),
     });
     const meetup = await response.json();
-    console.log("meetup data", meetup);
     // Redirect user to the homepage using router
     router.push("/");
   };

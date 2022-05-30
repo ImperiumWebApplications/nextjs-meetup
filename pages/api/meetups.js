@@ -1,9 +1,8 @@
 import { MongoClient } from "mongodb";
 
-// Post endpoint for adding a new meetup
+// GET endpoint for getting all meetups
 async function handler(req, res) {
-  if (req.method === "POST") {
-    const data = req.body;
+  if (req.method === "GET") {
     try {
       // Connect to mongodb database using connection string
       const client = await MongoClient.connect(
@@ -12,10 +11,9 @@ async function handler(req, res) {
       );
       const db = await client.db("meetups");
       const meetupsCollection = await db.collection("meetups");
-      const result = await meetupsCollection.insertOne(data);
-      const id = result.insertedId;
+      const meetups = await meetupsCollection.find({}).toArray();
       client.close();
-      res.status(201).json({ id });
+      res.status(200).json(meetups);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
