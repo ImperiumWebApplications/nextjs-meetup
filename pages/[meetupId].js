@@ -1,7 +1,18 @@
+import Head from "next/head";
 import MeetupDetail from "../components/meetups/MeetupDetail";
 
 const MeetupDetails = (props) => {
-  return <MeetupDetail meetup={props.meetup} />;
+  return (
+    <>
+      <Head>
+        <title>{props.meetup.title}</title>
+        {/* Set the meta tags */}
+        <meta name="description" content="Meetups App" />
+        <meta name="keywords" content="meetups, app" />
+      </Head>
+      <MeetupDetail meetup={props.meetup} />;
+    </>
+  );
 };
 
 export async function getStaticPaths() {
