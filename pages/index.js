@@ -1,5 +1,6 @@
 import MeetupsList from "../components/meetups/MeetupList";
 import Head from "next/head";
+import { MongoClient } from "mongodb";
 
 // export const DUMMY_MEETUPS = [
 //   {
@@ -37,12 +38,22 @@ const HomePage = (props) => {
 
 // Export method to implement static site generation
 export async function getStaticProps() {
-  // GET request to the endpoint /api/meetups and set the props.meetups to the response
-  const response = await fetch("http://localhost:3000/api/meetups");
-  const meetups = await response.json();
+  // Get the meetups
+  const client = await MongoClient.connect(
+    "mongodb+srv://root:tiktik123@cluster0.lhsfo.mongodb.net?retryWrites=true&w=majority",
+    { useNewUrlParser: true }
+  );
+  const db = await client.db("meetups");
+  const meetupsCollection = await db.collection("meetups");
+  const meetups = await meetupsCollection.find({}).toArray();
   return {
     props: {
-      meetups,
+      meetups: meetups.map((meetup) => {
+        return {
+          ...meetup,
+          _id: meetup._id.toString(),
+        };
+      }),
     },
   };
 }

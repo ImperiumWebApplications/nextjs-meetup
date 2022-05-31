@@ -1,5 +1,6 @@
 import Head from "next/head";
 import MeetupDetail from "../components/meetups/MeetupDetail";
+import { MongoClient, ObjectId } from "mongodb";
 
 const MeetupDetails = (props) => {
   return (
@@ -16,9 +17,14 @@ const MeetupDetails = (props) => {
 };
 
 export async function getStaticPaths() {
-  // Make a GET call to /api/meetups
-  const response = await fetch("http://localhost:3000/api/meetups");
-  const meetups = await response.json();
+  // Get the meetups from the database
+  const client = await MongoClient.connect(
+    "mongodb+srv://root:tiktik123@cluster0.lhsfo.mongodb.net?retryWrites=true&w=majority",
+    { useNewUrlParser: true }
+  );
+  const db = await client.db("meetups");
+  const meetupsCollection = await db.collection("meetups");
+  const meetups = await meetupsCollection.find({}).toArray();
 
   const paths = meetups.map((meetup) => {
     return {
@@ -34,11 +40,16 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context) {
-  // Make a GET call to /api/:meetupId
-  const response = await fetch(
-    "http://localhost:3000/api/" + context.params.meetupId
+  // Get the meetup from the database by meetupId
+  const client = await MongoClient.connect(
+    "mongodb+srv://root:tiktik123@cluster0.lhsfo.mongodb.net?retryWrites=true&w=majority",
+    { useNewUrlParser: true }
   );
-  const meetup = await response.json();
+  const db = await client.db("meetups");
+  // Find the data by meetupId
+  const meetup = await db.collection("meetups").findOne({
+    _id: ObjectId(context.params.meetupId),
+  });
   return {
     props: {
       meetup: {
