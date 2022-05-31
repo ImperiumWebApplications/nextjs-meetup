@@ -1,4 +1,5 @@
 import MeetupsList from "../components/meetups/MeetupList";
+import Head from "next/head";
 
 // export const DUMMY_MEETUPS = [
 //   {
@@ -20,7 +21,18 @@ import MeetupsList from "../components/meetups/MeetupList";
 // ];
 
 const HomePage = (props) => {
-  return <MeetupsList meetups={props.meetups} />;
+  // Set the header relevant tags using the Head component
+  return (
+    <>
+      <Head>
+        <title>Meetups</title>
+        {/* Set the meta tags */}
+        <meta name="description" content="Meetups App" />
+        <meta name="keywords" content="meetups, app" />
+      </Head>
+      <MeetupsList meetups={props.meetups} />
+    </>
+  );
 };
 
 // Export method to implement static site generation
